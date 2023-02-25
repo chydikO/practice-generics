@@ -57,17 +57,19 @@ public class Pairs<K extends Comparable<K>, V extends Comparable<V>> implements 
      * specified
      */
     private class PairIterator implements Iterator<Pair<K, V>> {
-        int i = 0;
+        int cursor;       // index of next element to return
+        int lastRet = -1; // index of last element returned; -1 if no such
         /**
          * TODO: Проверить наличие следующего элемента в итераторе
          */
         @Override
         public boolean hasNext() {
-//            if (i == pairs.length) {
+//            if (cursor == pairs.length) {
 //                throw new UnsupportedOperationException();
 //            }
 //            return true;
-           return i < pairs.length && pairs[i] != null;
+           return cursor < pairs.length && pairs[cursor] != null;
+           //return cursor != pairs.length;
         }
 
         /**
@@ -76,10 +78,14 @@ public class Pairs<K extends Comparable<K>, V extends Comparable<V>> implements 
          */
         @Override
         public Pair<K, V> next() {
+            int i = cursor;
+            if (i >= pairs.length) throw new UnsupportedOperationException();
+            cursor = i + 1;
+            return (Pair<K, V>) pairs[lastRet = i];
 //            if (i >= pairs.length) {
 //                throw new UnsupportedOperationException();
 //            }
-            return (Pair<K, V>) pairs[i++];
+//            return (Pair<K, V>) pairs[cursor++];
         }
 
         /**
@@ -87,7 +93,7 @@ public class Pairs<K extends Comparable<K>, V extends Comparable<V>> implements 
          */
         @Override
         public void remove() {
-            int ind = --i;
+            int ind = --cursor;
             for (; ind < pairs.length - 1; ind++) {
                 pairs[ind] = pairs[ind + 1];
             }
@@ -95,7 +101,7 @@ public class Pairs<K extends Comparable<K>, V extends Comparable<V>> implements 
             Pair[] tmpPairs = new Pair[PAIRS_SIZE];
             System.arraycopy(pairs,0, tmpPairs, 0, PAIRS_SIZE - 1);
             pairs = tmpPairs;
-            i++;
+            cursor++;
             index--;
             //throw new UnsupportedOperationException();
         }
