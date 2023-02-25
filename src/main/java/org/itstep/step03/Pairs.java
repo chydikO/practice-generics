@@ -64,12 +64,7 @@ public class Pairs<K extends Comparable<K>, V extends Comparable<V>> implements 
          */
         @Override
         public boolean hasNext() {
-//            if (cursor == pairs.length) {
-//                throw new UnsupportedOperationException();
-//            }
-//            return true;
            return cursor < pairs.length && pairs[cursor] != null;
-//           return cursor != pairs.length;
         }
 
         /**

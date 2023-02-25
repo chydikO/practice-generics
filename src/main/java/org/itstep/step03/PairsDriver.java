@@ -17,8 +17,6 @@ import java.util.List;
 public class PairsDriver {
 
     public static void main(String[] args) {
-        List<Integer> arr = new ArrayList<>();
-
         // TODO: раскомментируйте код и запустите
         Pairs<String, Integer> pairs = new Pairs<String, Integer>();
         for (int i = 0; i < 15; i++) {
