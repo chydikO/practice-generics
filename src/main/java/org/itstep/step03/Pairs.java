@@ -18,14 +18,14 @@ public class Pairs<K extends Comparable<K>, V extends Comparable<V>> implements 
     final int PAIRS_SIZE = 10;
 
     private Pair[] pairs;
-    private int index;
+    private int size;
 
     /**
      * Создайте коллекцию, в которой будут храниться элементы, добавленные парами.
      */
     public Pairs() {
         pairs = new Pair[PAIRS_SIZE];
-        index = 0;
+        size = 0;
     }
 
     /**
@@ -36,10 +36,10 @@ public class Pairs<K extends Comparable<K>, V extends Comparable<V>> implements 
      * @return true - если пара была добавлена, false - в противном случае
      */
     public boolean addPair(K first, V second) {
-        if (index != PAIRS_SIZE) {
+        if (size != PAIRS_SIZE) {
             Pair<K, V> newPair = new Pair<>(first, second);
-            pairs[index] = newPair;
-            index++;
+            pairs[size] = newPair;
+            size++;
             return true;
         }
         return false;
@@ -69,7 +69,7 @@ public class Pairs<K extends Comparable<K>, V extends Comparable<V>> implements 
 //            }
 //            return true;
            return cursor < pairs.length && pairs[cursor] != null;
-           //return cursor != pairs.length;
+//           return cursor != pairs.length;
         }
 
         /**
@@ -93,7 +93,9 @@ public class Pairs<K extends Comparable<K>, V extends Comparable<V>> implements 
          */
         @Override
         public void remove() {
-            int ind = --cursor;
+            if (lastRet < 0)
+                throw new IllegalStateException();
+            int ind = lastRet;
             for (; ind < pairs.length - 1; ind++) {
                 pairs[ind] = pairs[ind + 1];
             }
@@ -101,9 +103,10 @@ public class Pairs<K extends Comparable<K>, V extends Comparable<V>> implements 
             Pair[] tmpPairs = new Pair[PAIRS_SIZE];
             System.arraycopy(pairs,0, tmpPairs, 0, PAIRS_SIZE - 1);
             pairs = tmpPairs;
-            cursor++;
-            index--;
-            //throw new UnsupportedOperationException();
+
+            cursor = lastRet;
+            lastRet = -1;
+            size--;
         }
     }
 }
