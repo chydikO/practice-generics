@@ -79,13 +79,9 @@ public class Pairs<K extends Comparable<K>, V extends Comparable<V>> implements 
         @Override
         public Pair<K, V> next() {
             int i = cursor;
-            if (i >= pairs.length) throw new UnsupportedOperationException();
+            if (i >= size) throw new NoSuchElementException();
             cursor = i + 1;
             return (Pair<K, V>) pairs[lastRet = i];
-//            if (i >= pairs.length) {
-//                throw new UnsupportedOperationException();
-//            }
-//            return (Pair<K, V>) pairs[cursor++];
         }
 
         /**
